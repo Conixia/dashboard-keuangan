@@ -1,3 +1,5 @@
-python-telegram-bot==21.10
-requests==2.31.0
-python-dotenv==1.0.0
+streamlit==1.32.0
+supabase==2.3.4
+pandas==2.2.0
+plotly==5.19.0
+openpyxl==3.1.2
