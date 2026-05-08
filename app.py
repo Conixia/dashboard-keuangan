@@ -42,7 +42,7 @@ st.markdown("""
 #  CEK QUERY PARAM
 # ══════════════════════════════════════════════════════════
 params       = st.query_params
-current_user = params.get("user", "").strip()
+current_user = params.get("uid", "").strip()
 
 if not current_user:
     st.markdown("## 💰 Dashboard Keuangan")
@@ -61,12 +61,12 @@ def get_headers():
     }
 
 @st.cache_data(ttl=60)
-def load_data(username: str) -> pd.DataFrame:
+def load_data(current_user: str) -> pd.DataFrame:
     url  = st.secrets["SUPABASE_URL"]
     hdrs = get_headers()
     try:
         r = req.get(
-            f"{url}/rest/v1/transactions?order=date.asc&select=*&username=eq.{username}",
+            f"{url}/rest/v1/transactions?order=date.asc&select=*&user_id=eq.{current_user}",
             headers=hdrs, timeout=15
         )
         r.raise_for_status()
@@ -237,7 +237,8 @@ periode_label = sel_bulan if sel_bulan != "Semua" else "Semua Periode"
 # ══════════════════════════════════════════════════════════
 #  HEADER
 # ══════════════════════════════════════════════════════════
-st.markdown(f"# 💰 Dashboard — {current_user}")
+st.markdown(f"# 💰 Dashboard — {nama_tampil}")
+nama_tampil = df_raw["username"].iloc[0] if not df_raw.empty else current_user
 st.caption(f"Periode: **{periode_label}**")
 st.markdown("---")
 
@@ -392,4 +393,4 @@ with d3:
     )
 
 st.markdown("<br><br>", unsafe_allow_html=True)
-st.caption(f"Dashboard Keuangan · {current_user} · Powered by Streamlit + Supabase + Telegram Bot")
+st.caption(f"Dashboard Keuangan · {nama_tampil} · Powered by Streamlit + Supabase + Telegram Bot")
