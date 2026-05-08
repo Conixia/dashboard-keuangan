@@ -237,8 +237,8 @@ periode_label = sel_bulan if sel_bulan != "Semua" else "Semua Periode"
 # ══════════════════════════════════════════════════════════
 #  HEADER
 # ══════════════════════════════════════════════════════════
-st.markdown(f"# 💰 Dashboard — {nama_tampil}")
 nama_tampil = df_raw["username"].iloc[0] if not df_raw.empty else current_user
+st.markdown(f"# 💰 Dashboard — {nama_tampil}")
 st.caption(f"Periode: **{periode_label}**")
 st.markdown("---")
 
